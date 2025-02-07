@@ -34,6 +34,23 @@
 		D07297562D4AC58C00CE6AC1 /* NeuMovieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeuMovieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D09CAC0A2D56745F00271866 /* Exceptions for "NeuMovieTests" folder in "NeuMovie" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/MovieMocks.swift,
+			);
+			target = D072973B2D4AC58B00CE6AC1 /* NeuMovie */;
+		};
+		D09CAC0B2D56745F00271866 /* Exceptions for "NeuMovieTests" folder in "NeuMovieTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/MovieMocks.swift,
+			);
+			target = D072974B2D4AC58C00CE6AC1 /* NeuMovieTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D072973E2D4AC58B00CE6AC1 /* NeuMovie */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -42,6 +59,10 @@
 		};
 		D072974F2D4AC58C00CE6AC1 /* NeuMovieTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D09CAC0A2D56745F00271866 /* Exceptions for "NeuMovieTests" folder in "NeuMovie" target */,
+				D09CAC0B2D56745F00271866 /* Exceptions for "NeuMovieTests" folder in "NeuMovieTests" target */,
+			);
 			path = NeuMovieTests;
 			sourceTree = "<group>";
 		};

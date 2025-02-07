@@ -12,15 +12,15 @@ final class LatestMoviesViewModel: LatestMoviesViewModelProtocol {
     
     @Published private(set) var moviesToDisplay: [Movie] = []
     
-    private let networkManager: NetworkManager
+    private let networkService: NetworkService
     private let imagePrefetcher: MovieImagePrefetching
     private var page: Int = 0
-    private var canLoadMore: Bool = true
+     var canLoadMore: Bool = true
     private var isLoading: Bool = false
     
-    init(networkManager: NetworkManager = .shared,
+    init(networkService: NetworkService = NetworkManager.shared,
          imagePrefetcher: MovieImagePrefetching = MovieImagePrefetcher()) {
-        self.networkManager = networkManager
+        self.networkService = networkService
         self.imagePrefetcher = imagePrefetcher
     }
     
@@ -33,7 +33,7 @@ final class LatestMoviesViewModel: LatestMoviesViewModelProtocol {
         isLoading = true
         page += 1
         
-        networkManager.fetchNowPlaying(page: page) { [weak self] result in
+        networkService.fetchNowPlaying(page: page) { [weak self] result in
             guard let self = self else { return }
             self.isLoading = false
             
