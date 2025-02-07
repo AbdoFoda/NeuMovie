@@ -20,8 +20,13 @@ struct LatestMoviesView<ViewModel: LatestMoviesViewModelProtocol>: View {
                         .font(.headline)
                         .padding()
                 }
-                
-                List(viewModel.moviesToDisplay, id: \.id) { movie in
+                // Search Bar
+                TextField("Search movies...", text: $viewModel.searchQuery)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+                List(viewModel.searchQuery.isEmpty ? viewModel.moviesToDisplay : viewModel.searchResults, id: \.id) { movie in
                     MovieRow(movie: movie)
                         .task {
                             if !isLoadingMore && movie === viewModel.moviesToDisplay.last {

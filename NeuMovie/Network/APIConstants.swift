@@ -13,4 +13,7 @@ enum APIConstants {
     
     static let bearerToken = "Bearer \(token)"
     static let imageBaseURL = "https://image.tmdb.org/t/p/w500"
+    
+    static let nowPlayingPath = "movie/now_playing?page="
+    static let searchPath = "search/movie?query="
 }

@@ -77,6 +77,10 @@ public final class NetworkManager: NetworkService {
     }
 
     func fetchNowPlaying(page: Int, completion: @escaping (Result<NowPlayingResponse, NetworkError>) -> Void) {
-        request(endpoint: "movie/now_playing?page=\(page)", completion: completion)
+        request(endpoint: APIConstants.nowPlayingPath + String(page), completion: completion)
+    }
+    
+    func searchMovies(query: String, completion: @escaping (Result<NowPlayingResponse, NetworkError>) -> Void) {
+        request(endpoint: APIConstants.searchPath + query, completion: completion)
     }
 }

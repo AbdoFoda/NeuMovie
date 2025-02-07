@@ -8,4 +8,5 @@
 
 protocol NetworkService {
     func fetchNowPlaying(page: Int, completion: @escaping (Result<NowPlayingResponse, NetworkError>) -> Void)
+    func searchMovies(query: String, completion: @escaping (Result<NowPlayingResponse, NetworkError>) -> Void)
 }
