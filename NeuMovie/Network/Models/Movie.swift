@@ -21,6 +21,27 @@ class Movie: Codable, Identifiable {
         guard let path = posterPath else { return nil }
         return URL(string: APIConstants.imageBaseURL + path)
     }
+    
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath)
+        self.releaseDate = try container.decode(String.self, forKey: .releaseDate)
+        self.voteAverage = try container.decode(Float.self, forKey: .voteAverage)
+        self.popularity = try container.decode(Float.self, forKey: .popularity)
+        self.title = try container.decode(String.self, forKey: .title)
+        self.overview = try container.decode(String.self, forKey: .overview)
+    }
+    
+    init(id: Int, posterPath: String? = nil, releaseDate: String, voteAverage: Float, popularity: Float, title: String, overview: String) {
+        self.id = id
+        self.posterPath = posterPath
+        self.releaseDate = releaseDate
+        self.voteAverage = voteAverage
+        self.popularity = popularity
+        self.title = title
+        self.overview = overview
+    }
 }
 
 extension Movie: Hashable {

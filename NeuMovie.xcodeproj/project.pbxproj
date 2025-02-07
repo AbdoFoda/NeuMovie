@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D09CABEF2D5650D600271866 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = D09CABEE2D5650D600271866 /* Nuke */; };
+		D09CABF12D56526100271866 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = D09CABF02D56526100271866 /* NukeUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D09CABEF2D5650D600271866 /* Nuke in Frameworks */,
+				D09CABF12D56526100271866 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,7 @@
 			name = NeuMovie;
 			packageProductDependencies = (
 				D09CABEE2D5650D600271866 /* Nuke */,
+				D09CABF02D56526100271866 /* NukeUI */,
 			);
 			productName = NeuMovie;
 			productReference = D072973C2D4AC58B00CE6AC1 /* NeuMovie.app */;
@@ -584,6 +587,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D09CABED2D5650D600271866 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = Nuke;
+		};
+		D09CABF02D56526100271866 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D09CABED2D5650D600271866 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

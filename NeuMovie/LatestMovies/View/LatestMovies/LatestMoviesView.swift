@@ -9,21 +9,22 @@ import SwiftUI
 
 struct LatestMoviesView<ViewModel: LatestMoviesViewModelProtocol>: View {
     
-    @StateObject var viewModel: ViewModel
+    @ObservedObject var viewModel: ViewModel
     @State var selectedMovie: Movie?
     @State var isLoadingMore: Bool = false
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 if viewModel.moviesToDisplay.isEmpty && isLoadingMore{
                     ProgressView("Loading Movies...")
                         .font(.headline)
                         .padding()
                 }
-                List(viewModel.moviesToDisplay) { movie in
+                
+                List(viewModel.moviesToDisplay, id: \.id) { movie in
                     MovieRow(movie: movie)
-                        .onAppear() {
-                            if movie === viewModel.moviesToDisplay.last {
+                        .task {
+                            if !isLoadingMore && movie === viewModel.moviesToDisplay.last {
                                 isLoadingMore = true
                                 viewModel.loadMoreMovies { _ in
                                     isLoadingMore = false
@@ -32,19 +33,15 @@ struct LatestMoviesView<ViewModel: LatestMoviesViewModelProtocol>: View {
                         }
                 }
                 .navigationTitle("Now Playing")
-                if isLoadingMore {
+                if isLoadingMore && !viewModel.moviesToDisplay.isEmpty {
                     ProgressView()
                 }
             }
-        }.onAppear() {
-            self.isLoadingMore = true
-            self.viewModel.loadMoreMovies() { error in
-                self.isLoadingMore = false
-                if let error = error {
-                    print("Error loading more movies: \(error)")
-                }else {
-                    print("All movies are loaded")
-                    print(viewModel.moviesToDisplay.count)
+        }.task {
+            if viewModel.moviesToDisplay.isEmpty && !isLoadingMore {
+                self.isLoadingMore = true
+                self.viewModel.loadMoreMovies() { error in
+                    self.isLoadingMore = false
                 }
             }
         }

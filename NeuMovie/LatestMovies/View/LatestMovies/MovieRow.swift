@@ -6,20 +6,29 @@
 //
 
 import SwiftUI
+import NukeUI
 
 struct MovieRow: View {
     let movie: Movie
-
+    
     var body: some View {
         NavigationLink(destination: MovieDetailView(movie: movie)) {
             HStack {
-                AsyncImage(url: movie.posterURL) { image in
-                    image.resizable().scaledToFit()
-                } placeholder: {
-                    ProgressView()
+                LazyImage(url: movie.posterURL) { state in
+                    if let image = state.image { image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 150)
+                            .cornerRadius(10)
+                    } else if state.error != nil {
+                        Color.gray
+                            .frame(width: 100, height: 150)
+                            .overlay(Text("Failed"), alignment: .center)
+                    } else {
+                        ProgressView()
+                            .frame(width: 100, height: 150)
+                    }
                 }
-                .frame(width: 80, height: 120)
-                .cornerRadius(8)
                 
                 VStack(alignment: .leading, spacing: 5) {
                     Text(movie.title)
