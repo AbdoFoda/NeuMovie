@@ -6,51 +6,53 @@
 //
 
 import Combine
-import Foundation
-import Nuke
+import SwiftUI
 
 final class LatestMoviesViewModel: LatestMoviesViewModelProtocol {
     
-    @Published var moviesToDisplay: [Movie] = [Movie]()
-    var networkManager: NetworkManager
-    private let prefetcher = ImagePrefetcher()
-
+    @Published private(set) var moviesToDisplay: [Movie] = []
+    
+    private let networkManager: NetworkManager
+    private let imagePrefetcher: MovieImagePrefetching
     private var page: Int = 0
     private var canLoadMore: Bool = true
+    private var isLoading: Bool = false
     
-    init(networkManager: NetworkManager = .shared) {
+    init(networkManager: NetworkManager = .shared,
+         imagePrefetcher: MovieImagePrefetching = MovieImagePrefetcher()) {
         self.networkManager = networkManager
+        self.imagePrefetcher = imagePrefetcher
     }
     
     func loadMoreMovies(completion: @escaping (Error?) -> Void) {
-        guard canLoadMore else {
-            print("All Movies are loaded")
-            completion(.none)
+        guard canLoadMore, !isLoading else {
+            completion(nil)
             return
         }
+        
+        isLoading = true
         page += 1
-        networkManager.fetchNowPlaying(page: self.page) { [weak self] (result) in
+        
+        networkManager.fetchNowPlaying(page: page) { [weak self] result in
             guard let self = self else { return }
+            self.isLoading = false
+            
             switch result {
             case .success(let nowPlaying):
-                self.canLoadMore = (nowPlaying.totalPages > self.page)
-                let newMovies = Array(Set(nowPlaying.results))
-                DispatchQueue.main.async { [weak self] in
-                    if let self = self {
-                        self.prefetchImages(from: newMovies)
-                        self.moviesToDisplay = Array(Set(self.moviesToDisplay + newMovies))
-                        completion(nil)
-                    }
-                }
+                self.handleNewMovies(nowPlaying.results)
+                self.canLoadMore = nowPlaying.totalPages > self.page
+                completion(nil)
             case .failure(let error):
                 completion(error)
             }
         }
     }
     
-    private func prefetchImages(from movies: [Movie]) {
-        let urls = movies.compactMap {$0.posterURL}
-        prefetcher.startPrefetching(with: urls)
+    private func handleNewMovies(_ newMovies: [Movie]) {
+        let uniqueMovies = Set(moviesToDisplay).union(newMovies)
+        DispatchQueue.main.async {
+            self.moviesToDisplay = Array(uniqueMovies)
+            self.imagePrefetcher.prefetchImages(from: newMovies)
+        }
     }
-    
 }
