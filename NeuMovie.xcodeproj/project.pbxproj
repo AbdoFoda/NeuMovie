@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D09CABEF2D5650D600271866 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = D09CABEE2D5650D600271866 /* Nuke */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D072974D2D4AC58C00CE6AC1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D09CABEF2D5650D600271866 /* Nuke in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = NeuMovie;
 			packageProductDependencies = (
+				D09CABEE2D5650D600271866 /* Nuke */,
 			);
 			productName = NeuMovie;
 			productReference = D072973C2D4AC58B00CE6AC1 /* NeuMovie.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = D07297332D4AC58B00CE6AC1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D09CABED2D5650D600271866 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D072973D2D4AC58B00CE6AC1 /* Products */;
 			projectDirPath = "";
@@ -558,6 +567,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D09CABED2D5650D600271866 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D09CABEE2D5650D600271866 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D09CABED2D5650D600271866 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D07297342D4AC58B00CE6AC1 /* Project object */;
 }
