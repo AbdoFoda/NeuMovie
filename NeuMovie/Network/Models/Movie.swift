@@ -18,8 +18,15 @@ class Movie: Codable, Identifiable {
     let overview: String
     
     var posterURL: URL? {
-        guard let path = posterPath else { return nil }
-        return URL(string: APIConstants.imageBaseURL + path)
+        guard var path = posterPath else { return nil }
+        if path.hasPrefix("/") {
+            path.removeFirst()
+        }
+        if case .success(let url) = APIConstants.buildURL(isImage: true,
+                                                          pathParam: [APIConstants.defaultImageSize, path]){
+            return url
+        }
+        return nil
     }
     
     required init(from decoder: any Decoder) throws {

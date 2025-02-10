@@ -22,21 +22,21 @@ public final class NetworkManager: NetworkService {
         self.networkMonitor = monitor
     }
 
-    private func buildURL(endpoint: String) -> URL? {
-        return URL(string: APIConstants.baseURL + endpoint)
-    }
-
-
-    private func request<T: Decodable>(endpoint: String, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        guard let url = buildURL(endpoint: endpoint) else {
-            completion(.failure(.invalidURL))
+    private func request<T: Decodable>(endpoint: APIConstants.APIRoute,
+                                       parameters: [APIConstants.Parameter: String],
+                                       completion: @escaping (Result<T, NetworkError>) -> Void) {
+        let result = APIConstants.buildURL(from: endpoint, queryParam: parameters)
+        guard case .success(let url) = result else {
+            if case .failure(let error) = result {
+                    completion(.failure(error))
+            }
             return
         }
 
         guard networkMonitor.isNetworkAvailable() else {
             completion(.failure(.noInternet))
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) { [weak self] in
-                self?.request(endpoint: endpoint, completion: completion)
+                self?.request(endpoint: endpoint, parameters: parameters, completion: completion)
             }
             return
         }
@@ -77,10 +77,14 @@ public final class NetworkManager: NetworkService {
     }
 
     func fetchNowPlaying(page: Int, completion: @escaping (Result<NowPlayingResponse, NetworkError>) -> Void) {
-        request(endpoint: APIConstants.nowPlayingPath + String(page), completion: completion)
+        request(endpoint: .nowPlaying,
+                parameters: [.page: String(page)],
+                completion: completion)
     }
     
     func searchMovies(query: String, completion: @escaping (Result<NowPlayingResponse, NetworkError>) -> Void) {
-        request(endpoint: APIConstants.searchPath + query, completion: completion)
+        request(endpoint: .searchPath,
+                parameters: [.query: query],
+                completion: completion)
     }
 }

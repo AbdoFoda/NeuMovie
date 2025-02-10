@@ -8,6 +8,8 @@
 @testable import NeuMovie
 
 final class MockNetworkService: NetworkService {
+    
+    
     var mockResult: Result<NowPlayingResponse, NetworkError>?
     
     func fetchNowPlaying(page: Int, completion: @escaping (Result<NowPlayingResponse, NetworkError>) -> Void) {
@@ -15,4 +17,11 @@ final class MockNetworkService: NetworkService {
             completion(result)
         }
     }
+    
+    func searchMovies(query: String, completion: @escaping (Result<NeuMovie.NowPlayingResponse, NeuMovie.NetworkError>) -> Void) {
+        if let result = mockResult {
+            completion(result)
+        }
+    }
+
 }
